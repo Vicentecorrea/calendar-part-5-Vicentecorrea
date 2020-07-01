@@ -229,7 +229,7 @@ namespace CalendarApp
             }
             monthLabel.Text = calendar.SelectedDate.ToString(Constants.MonthAndYearFormat, new CultureInfo(Constants.EnglishLanguageCode));
             daysInSelectedMonth = DateTime.DaysInMonth(calendar.SelectedDate.Year, calendar.SelectedDate.Month);
-            daysBetweenMondayAndFirstDayOfSelectedMonth = calendar.GetDaysBetweenMondayAndFirstDayOfSelectedMonth();
+            daysBetweenMondayAndFirstDayOfSelectedMonth = calendar.DaysBetweenMondayAndFirstDayOfSelectedMonth;
             weeksInSelectedMonth = (int)Math.Ceiling((daysInSelectedMonth + daysBetweenMondayAndFirstDayOfSelectedMonth) / (float)Constants.DaysInWeek);
             calendar.IteratorDayInMonth = Constants.DefaultFirstDay;
         }

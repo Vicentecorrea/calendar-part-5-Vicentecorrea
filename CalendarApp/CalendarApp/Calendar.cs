@@ -54,24 +54,27 @@ namespace CalendarApp
                 iteratorDateInWeek = value;
             }
         }
+
+        public int DaysBetweenMondayAndFirstDayOfSelectedMonth
+        {
+            get
+            {
+                DateTime firstDateOfMonth = new DateTime(SelectedDate.Year, SelectedDate.Month, Constants.DefaultFirstDay);
+                int firstDayOfMonth;
+                if (firstDateOfMonth.DayOfWeek.Equals(DayOfWeek.Sunday))
+                {
+                    firstDayOfMonth = Constants.DaysInWeek;
+                }
+                else
+                {
+                    firstDayOfMonth = (int)firstDateOfMonth.DayOfWeek;
+                }
+                return firstDayOfMonth - Constants.GapBetweenIndexAndNumber;
+            }
+        }
         #endregion
 
         #region Methods
-        public int GetDaysBetweenMondayAndFirstDayOfSelectedMonth()
-        {
-            DateTime firstDateOfMonth = new DateTime(SelectedDate.Year, SelectedDate.Month, Constants.DefaultFirstDay);
-            int firstDayOfMonth;
-            if (firstDateOfMonth.DayOfWeek.Equals(DayOfWeek.Sunday))
-            {
-                firstDayOfMonth = Constants.DaysInWeek;
-            }
-            else
-            {
-                firstDayOfMonth = (int)firstDateOfMonth.DayOfWeek;
-            }
-            return firstDayOfMonth - Constants.GapBetweenIndexAndNumber;
-        }
-
         public DateTime GetMondayOfWeek(DateTime date)
         {
             DateTime iteratorDayOfWeek = date;
@@ -84,6 +87,10 @@ namespace CalendarApp
 
         public string GetCellTextInMonthView(List<Appointment> appointmentsInThisDay, DateTime day)
         {
+            if (appointmentsInThisDay == null)
+            {
+                throw new ArgumentNullException("appointmentsInThisDay");
+            }
             string cellText = IteratorDayInMonth.ToString();
             foreach (Appointment appointment in appointmentsInThisDay)
             {
@@ -99,6 +106,10 @@ namespace CalendarApp
 
         public string GetCellTextInWeekView(List<Appointment> appointmentsInThisDayAtThisHour, int hour)
         {
+            if (appointmentsInThisDayAtThisHour == null)
+            {
+                throw new ArgumentNullException("appointmentsInThisDayAtThisHour");
+            }
             string cellText = Constants.Empty;
             foreach (Appointment appointment in appointmentsInThisDayAtThisHour)
             {

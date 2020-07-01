@@ -25,15 +25,15 @@ namespace Tests
         }
 
         [Test]
-        [Category("Simple Tests")]
-        public void GetDaysBetweenMondayAndFirstDayOfSelectedMonth_SelectedDate_ReturnsExpectedNumber()
+        [Category("Property Tests")]
+        public void DaysBetweenMondayAndFirstDayOfSelectedMonth_SelectedDate_ReturnsExpectedNumber()
         {
             // Arrange
             calendar.SelectedDate = new DateTime(2020, 10, 25);
             int expectedDaysBetweenMondayAndFirstDayOfSelectedMonth = 3;
 
             // Act
-            int result = calendar.GetDaysBetweenMondayAndFirstDayOfSelectedMonth();
+            int result = calendar.DaysBetweenMondayAndFirstDayOfSelectedMonth;
 
             // Assert
             Assert.AreEqual(expectedDaysBetweenMondayAndFirstDayOfSelectedMonth, result);

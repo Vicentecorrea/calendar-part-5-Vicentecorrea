@@ -169,6 +169,14 @@ namespace CalendarApp.Controllers
 
         public bool CanTheUserBeInvitedToAppointment(string userName, Appointment temporaryAppointment)
         {
+            if (temporaryAppointment == null)
+            {
+                throw new ArgumentNullException("temporaryAppointment");
+            }
+            if (userName == null)
+            {
+                throw new ArgumentNullException("userName");
+            }
             List<Appointment> appointmentsOfUserNameToMove = GetUserNameAppointments(userName);
             foreach (Appointment appointment in appointmentsOfUserNameToMove)
             {
