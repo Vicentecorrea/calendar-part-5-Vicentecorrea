@@ -29,17 +29,13 @@ namespace Tests
         [Category("Simple Tests")]
         public void IsAppointmentInThisDay_AppointmentThatStartsThisDay_ReturnsTrue()
         {
-            // Arrange
             DateTime appointmentInputStartDate = new DateTime(2020, 6, 4, 17, 32, 11);
             DateTime appointmentInputEndDate = new DateTime(2020, 6, 5, 3, 49, 18);
             List<string> guestUserNamesInput = new List<string>();
             Appointment appointmentInput = new Appointment("Title", "Description", appointmentInputStartDate, appointmentInputEndDate, "Juan", guestUserNamesInput);
             DateTime dayInput = new DateTime(2020, 6, 4);
-
-            // Act
+            
             bool result = appointmentController.IsAppointmentInThisDay(appointmentInput, dayInput);
-
-            // Assert
             Assert.IsTrue(result, string.Format("The appointment is not on {0}", dayInput.ToString()));
         }
 
@@ -47,10 +43,8 @@ namespace Tests
         [Category("Exception Tests")]
         public void IsAppointmentInThisDay_NullAppointment_ThrowsArgumentNullException()
         {
-            // Arrange
             DateTime dayInput = new DateTime(2020, 10, 10);
-
-            // Act/Assert
+            
             ArgumentNullException argumentNullException = Assert.Throws<ArgumentNullException>(() => appointmentController.IsAppointmentInThisDay(null, dayInput));
             Assert.That(argumentNullException.ParamName, Is.EqualTo("appointment"));
         }
@@ -59,17 +53,13 @@ namespace Tests
         [Category("Simple Tests")]
         public void IsAppointmentInThisDayAndTime_AppointmentAndDatetime_ReturnsTrue()
         {
-            // Arrange
             DateTime appointmentInputStartDate = new DateTime(2020, 6, 17, 10, 30, 0);
             DateTime appointmentInputEndDate = new DateTime(2020, 6, 17, 21, 45, 30);
             List<string> guestUserNamesInput = new List<string>();
             Appointment appointmentInput = new Appointment("Title", "Description", appointmentInputStartDate, appointmentInputEndDate, "Pedro", guestUserNamesInput);
             DateTime dayAndTimeInput = new DateTime(2020, 6, 17, 18, 51, 26);
-
-            // Act
+            
             bool result = appointmentController.IsAppointmentInThisDayAndTime(appointmentInput, dayAndTimeInput);
-
-            // Assert
             Assert.IsTrue(result, string.Format("The appointment is not at {0} on {1}", dayAndTimeInput.Hour.ToString(), dayAndTimeInput.Date.ToString()));
         }
 
@@ -77,10 +67,8 @@ namespace Tests
         [Category("Exception Tests")]
         public void IsAppointmentInThisDayAndTime_NullAppointment_ThrowsArgumentNullException()
         {
-            // Arrange
             DateTime timeInput = new DateTime(2020, 10, 10, 15, 30, 45);
-
-            // Act/Assert
+            
             ArgumentNullException argumentNullException = Assert.Throws<ArgumentNullException>(() => appointmentController.IsAppointmentInThisDayAndTime(null, timeInput));
             Assert.That(argumentNullException.ParamName, Is.EqualTo("appointment"));
         }
@@ -89,19 +77,14 @@ namespace Tests
         [Category("Simple Tests")]
         public void LoggedUserCanSeeThisAppointment_AppointmentInWhichUserIsInvited_ReturnsTrue()
         {
-            // Arrange
             User loggedUser = new User("Diego");
             UserController.LoggedUserName = loggedUser.UserName;
-
             DateTime appointmentInputStartDate = new DateTime(2020, 6, 17, 10, 30, 0);
             DateTime appointmentInputEndDate = new DateTime(2020, 6, 17, 21, 45, 30);
             List<string> guestUserNamesInput = new List<string> {"Ignacia", "Diego", "Pepe"};
             Appointment appointmentInput = new Appointment("Title", "Description", appointmentInputStartDate, appointmentInputEndDate, "Alberto", guestUserNamesInput);
-
-            // Act
+            
             bool result = appointmentController.LoggedUserCanSeeThisAppointment(appointmentInput);
-
-            // Assert
             Assert.IsTrue(result, string.Format("The logged in user {0} can't see the appointment {1}", UserController.LoggedUserName, appointmentInput.Title));
         }
 
@@ -109,7 +92,6 @@ namespace Tests
         [Category("Exception Tests")]
         public void LoggedUserCanSeeThisAppointment_NullAppointment_ThrowsArgumentNullException()
         {
-            // Act/Assert
             ArgumentNullException argumentNullException = Assert.Throws<ArgumentNullException>(() => appointmentController.LoggedUserCanSeeThisAppointment(null));
             Assert.That(argumentNullException.ParamName, Is.EqualTo("appointment"));
         }
@@ -118,7 +100,6 @@ namespace Tests
         [Category("Simple Tests")]
         public void GetUserNameAppointments_InvitedAndOwnAppointments_ReturnsListOfAppointments()
         {
-            // Arrange
             string userNameInput = "Pedro";
             DateTime appointmentDefaultStartDate = new DateTime(2020, 11, 11);
             DateTime appointmentDefaultEndDate = new DateTime(2020, 11, 11);
@@ -133,15 +114,11 @@ namespace Tests
                 Appointment appointmentInput = new Appointment("Title", "Description", appointmentDefaultStartDate, appointmentDefaultEndDate, ownerUserNames[index], guestUserNames[index]);
                 appointmentController.Appointments.Add(appointmentInput);
             }
-
             int FirstAppointmentIndex = 0;
             int ThirdAppointmentIndex = 2;
             List<Appointment> appointmentsForUserNameInput = new List<Appointment> {appointmentController.Appointments[FirstAppointmentIndex], appointmentController.Appointments[ThirdAppointmentIndex]};
-
-            // Act
+            
             List<Appointment> result = appointmentController.GetUserNameAppointments(userNameInput);
-
-            // Assert
             Assert.AreEqual(appointmentsForUserNameInput, result, string.Format("These are not the appointments in which {0} participates", userNameInput));
         }
 
@@ -149,17 +126,13 @@ namespace Tests
         [Category("Simple Tests")]
         public void GetErrorFeedbackTextCreatingAppointmentWithWrongValues_AllWrongValues_ReturnsExpectedText()
         {
-            // Arrange
             bool appointmentHasTitle = false;
             bool appointmentHasDescription = false;
             bool appointmentEndDateIsLaterThanStartDate = false;
             string expectedErrorFeedbackText = string.Format("The appointment must have a title{0}The appointment must have a description{1}The end date must be later than the start date",
                 Environment.NewLine, Environment.NewLine);
-
-            // Act 
+            
             string result = appointmentController.GetErrorFeedbackTextCreatingAppointmentWithWrongValues(appointmentHasTitle, appointmentHasDescription, appointmentEndDateIsLaterThanStartDate);
-
-            // Assert
             Assert.AreEqual(expectedErrorFeedbackText, result);
         }
 
@@ -167,15 +140,11 @@ namespace Tests
         [Category("Simple Tests")]
         public void GetErrorFeedbackTextCreatingAppointmentWithWrongGuests_ListOfUserNames_ReturnsExpectedText()
         {
-            // Arrange
             List<string> userNamesThatCannotBeInvitedToAppointment = new List<string> {"Juan", "Ignacia", "Max"};
             string expectedText = string.Format("The following users cannot be invited to your appointment because they have a time collision with another appointment:{0}- Juan{1}- Ignacia{2}- Max{3}", 
                 Environment.NewLine, Environment.NewLine, Environment.NewLine, Environment.NewLine);
 
-            // Act
             string result = appointmentController.GetErrorFeedbackTextCreatingAppointmentWithWrongGuests(userNamesThatCannotBeInvitedToAppointment);
-
-            // Assert
             Assert.AreEqual(expectedText, result);
         }
 
@@ -183,7 +152,6 @@ namespace Tests
         [Category("Exception Tests")]
         public void GetErrorFeedbackTextCreatingAppointmentWithWrongGuests_NullAppointment_ThrowsArgumentNullException()
         {
-            // Act/Assert
             ArgumentNullException argumentNullException = Assert.Throws<ArgumentNullException>(() => appointmentController.GetErrorFeedbackTextCreatingAppointmentWithWrongGuests(null));
             Assert.That(argumentNullException.ParamName, Is.EqualTo("userNamesThatCannotBeInvitedToAppointment"));
         }
@@ -192,24 +160,18 @@ namespace Tests
         [Category("Simple Tests")]
         public void CanTheUserBeInvitedToAppointment_UserNameAndAppointment_ReturnsTrue()
         {
-            // Arrange
             string userNameInput = "Juan";
             DateTime appointmentDefaultStartDate = new DateTime(2020, 8, 10, 20, 34, 11);
             DateTime appointmentDefaultEndDate = new DateTime(2020, 8, 11, 7, 12, 56);
             List<string> guestUserNames = new List<string> {"Ignacio", "Antonia", userNameInput};
             Appointment defaultAppointment = new Appointment("Title", "Description", appointmentDefaultStartDate, appointmentDefaultEndDate, "Diego", guestUserNames);
-
             appointmentController.Appointments = new List<Appointment> { defaultAppointment };
-
             DateTime appointmentInDoubtStartDate = new DateTime(2020, 8, 11, 8, 44, 10);
             DateTime appointmentInDoubtEndDate = new DateTime(2020, 8, 11, 13, 52, 36);
             List<string> guestUserNamesOfAppointmentInDoubt = new List<string>();
             Appointment appointmentInDoubt = new Appointment("Title", "Description", appointmentInDoubtStartDate, appointmentInDoubtEndDate, "Alberto", guestUserNamesOfAppointmentInDoubt);
-
-            // Act
+            
             bool result = appointmentController.CanTheUserBeInvitedToAppointment(userNameInput, appointmentInDoubt);
-
-            // Assert
             Assert.IsTrue(result, string.Format("The user {0} cannot be invited to the appointment {1} due to a time collision", userNameInput, appointmentInDoubt.Title));
         }
 
@@ -217,26 +179,19 @@ namespace Tests
         [Category("Simple Tests")]
         public void GetUserNamesThatCannotBeInvitedToAppointment_PossibleUserNamesAndAppointment_ReturnsListOfUserNames()
         {
-            // Arrange
             DateTime appointmentDefaultStartDate = new DateTime(2020, 8, 10, 20, 34, 11);
             DateTime appointmentDefaultEndDate = new DateTime(2020, 8, 11, 7, 12, 56);
             List<string> guestUserNames = new List<string> {"Ignacio", "Antonia", "Juan"};
             Appointment defaultAppointment = new Appointment("Title", "Description", appointmentDefaultStartDate, appointmentDefaultEndDate, "Diego", guestUserNames);
-
             appointmentController.Appointments = new List<Appointment> {defaultAppointment};
-
             DateTime appointmentInDoubtStartDate = new DateTime(2020, 8, 10, 8, 41, 16);
             DateTime appointmentInDoubtEndDate = new DateTime(2020, 8, 10, 23, 12, 46);
             List<string> guestUserNamesOfAppointmentInDoubt = new List<string>();
             Appointment appointmentInDoubt = new Appointment("Title", "Description", appointmentInDoubtStartDate, appointmentInDoubtEndDate, "Alberto", guestUserNamesOfAppointmentInDoubt);
-
             List<string> possibleUserNames = new List<string> {"Francisca", "Ignacio", "Diego", "Antonia", "Pedro", "Juan"};
             List<string> expectedUserNamesWhoCannotBeInvitedToAppointment = new List<string> {"Ignacio", "Diego", "Antonia", "Juan"};
-
-            // Act
+            
             List<string> result = appointmentController.GetUserNamesThatCannotBeInvitedToAppointment(possibleUserNames, appointmentInDoubt);
-
-            // Assert
             Assert.AreEqual(expectedUserNamesWhoCannotBeInvitedToAppointment, result);
         }
 
@@ -244,13 +199,11 @@ namespace Tests
         [Category("Exception Tests")]
         public void GetUserNamesThatCannotBeInvitedToAppointment_NullAppointment_ThrowsArgumentNullException()
         {
-            // Arrange
             DateTime appointmentDefaultStartDate = new DateTime(2020, 8, 10, 20, 34, 11);
             DateTime appointmentDefaultEndDate = new DateTime(2020, 8, 11, 7, 12, 56);
             List<string> guestUserNames = new List<string>();
             Appointment appointmentInput = new Appointment("Title", "Description", appointmentDefaultStartDate, appointmentDefaultEndDate, "Diego", guestUserNames);
-
-            // Act/Assert
+            
             ArgumentNullException argumentNullException = Assert.Throws<ArgumentNullException>(() => appointmentController.GetUserNamesThatCannotBeInvitedToAppointment(null, appointmentInput));
             Assert.That(argumentNullException.ParamName, Is.EqualTo("possibleGuestUserNames"));
         }
@@ -259,29 +212,21 @@ namespace Tests
         [Category("Simple Tests")]
         public void GetAppointmentsInThisDay_Date_ReturnsListOfAppointments()
         {
-            // Arrange
             User loggedUser = new User("Antonia");
             UserController.LoggedUserName = loggedUser.UserName;
-
             DateTime firstAppointmentDefaultStartDate = new DateTime(2020, 8, 16, 20, 34, 11);
             DateTime firstAppointmentDefaultEndDate = new DateTime(2020, 8, 17, 7, 12, 56);
             List<string> firstGuestUserNames = new List<string> {"Ignacio", "Antonia", "Juan"};
             Appointment firstDefaultAppointment = new Appointment("Title", "Description", firstAppointmentDefaultStartDate, firstAppointmentDefaultEndDate, "Diego", firstGuestUserNames);
-
             DateTime secondAppointmentDefaultStartDate = new DateTime(2020, 8, 17, 2, 12, 51);
             DateTime secondAppointmentDefaultEndDate = new DateTime(2020, 8, 18, 19, 32, 53);
             List<string> secondGuestUserNames = new List<string>();
             Appointment secondDefaultAppointment = new Appointment("Title", "Description", secondAppointmentDefaultStartDate, secondAppointmentDefaultEndDate, "Ignacio", secondGuestUserNames);
-
             appointmentController.Appointments = new List<Appointment> {firstDefaultAppointment, secondDefaultAppointment};
             List<Appointment> expectedAppointmentsInThisDay = new List<Appointment> {firstDefaultAppointment};
-
             DateTime dayInDoubt = new DateTime(2020, 8, 17);
 
-            // Act
             List<Appointment> result = appointmentController.GetAppointmentsInThisDay(dayInDoubt);
-
-            // Assert
             Assert.AreEqual(expectedAppointmentsInThisDay, result);
         }
 
@@ -289,34 +234,25 @@ namespace Tests
         [Category("Simple Tests")]
         public void GetAppointmentsInThisDayAndTime_Datetime_ReturnsListOfAppointments()
         {
-            // Arrange
             User loggedUser = new User("Ignacio");
             UserController.LoggedUserName = loggedUser.UserName;
-
             DateTime firstAppointmentDefaultStartDate = new DateTime(2020, 10, 16, 20, 34, 11);
             DateTime firstAppointmentDefaultEndDate = new DateTime(2020, 10, 19, 7, 12, 56);
             List<string> firstGuestUserNames = new List<string> {"Antonia", "Juan"};
             Appointment firstDefaultAppointment = new Appointment("Title", "Description", firstAppointmentDefaultStartDate, firstAppointmentDefaultEndDate, "Ignacio", firstGuestUserNames);
-
             DateTime secondAppointmentDefaultStartDate = new DateTime(2020, 8, 11, 2, 12, 51);
             DateTime secondAppointmentDefaultEndDate = new DateTime(2020, 8, 11, 19, 32, 53);
             List<string> secondGuestUserNames = new List<string>();
             Appointment secondDefaultAppointment = new Appointment("Title", "Description", secondAppointmentDefaultStartDate, secondAppointmentDefaultEndDate, "Antonia", secondGuestUserNames);
-
             DateTime thirdAppointmentDefaultStartDate = new DateTime(2020, 8, 11, 10, 12, 00);
             DateTime thirdAppointmentDefaultEndDate = new DateTime(2020, 8, 12, 3, 42, 15);
             List<string> thirdGuestUserNames = new List<string> {"Fernanda", "Ignacio", "Pedro"};
             Appointment thirdDefaultAppointment = new Appointment("Title", "Description", thirdAppointmentDefaultStartDate, thirdAppointmentDefaultEndDate, "Diego", thirdGuestUserNames);
-
             appointmentController.Appointments = new List<Appointment> {firstDefaultAppointment, secondDefaultAppointment, thirdDefaultAppointment};
             List<Appointment> expectedAppointmentsInThisDayAndTime = new List<Appointment> {thirdDefaultAppointment};
-
             DateTime datetimeInDoubt = new DateTime(2020, 8, 11, 15, 30, 00);
 
-            // Act
             List<Appointment> result = appointmentController.GetAppointmentsInThisDayAndTime(datetimeInDoubt);
-
-            // Assert
             Assert.AreEqual(expectedAppointmentsInThisDayAndTime, result);
         }
     }

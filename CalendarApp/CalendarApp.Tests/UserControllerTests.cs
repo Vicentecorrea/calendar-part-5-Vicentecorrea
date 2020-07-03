@@ -27,17 +27,13 @@ namespace Tests
         [Category("Simple Tests")]
         public void CheckIfUserNameExists_UserName_ReturnsTrue()
         {
-            // Arrange
             User firstDefaultUser = new User("Pedro");
             User secondDefaultUser = new User("Juan");
             User thirdDefaultUser = new User("Diego");
             userController.Users = new List<User> {firstDefaultUser, secondDefaultUser, thirdDefaultUser};
             string userNameInput = "Juan";
 
-            // Act
             bool result = userController.CheckIfUserNameExists(userNameInput);
-
-            // Assert
             Assert.IsTrue(result, string.Format("There is no user with username {0}", userNameInput));
         }
 
@@ -45,7 +41,6 @@ namespace Tests
         [Category("Exception Tests")]
         public void CheckIfUserNameExists_NullUserName_ThrowsArgumentNullException()
         {
-            // Act/Assert
             ArgumentNullException argumentNullException = Assert.Throws<ArgumentNullException>(() => userController.CheckIfUserNameExists(null));
             Assert.That(argumentNullException.ParamName, Is.EqualTo("loginUserName"));
         }

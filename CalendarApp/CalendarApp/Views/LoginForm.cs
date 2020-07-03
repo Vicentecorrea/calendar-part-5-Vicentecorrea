@@ -18,6 +18,7 @@ namespace CalendarApp.Views
         #region Fields
         private readonly UserController userController = new UserController();
         #endregion
+
         #region Methods
         public LoginForm()
         {
