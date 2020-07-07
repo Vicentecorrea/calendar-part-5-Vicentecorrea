@@ -60,7 +60,12 @@ namespace CalendarApp.Controllers
                 if (stream.Length > Constants.ZeroItemsInList)
                 {
                     BinaryFormatter binaryFormatter = new BinaryFormatter();
-                    Users = (List<User>)binaryFormatter.Deserialize(stream);
+                    object usersData = binaryFormatter.Deserialize(stream);
+                    Users = usersData as List<User>;
+                    if (Users == null)
+                    {
+                        Users = new List<User>();
+                    }
                 }
             }
             finally

@@ -286,7 +286,12 @@ namespace CalendarApp
         {
             if (!WasHeaderOrColumnOfHoursClicked(e.RowIndex, e.ColumnIndex))
             {
-                List<Appointment> appointments = (List<Appointment>)calendarGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag;
+                object appointmentsData = calendarGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag;
+                List<Appointment> appointments = appointmentsData as List<Appointment>;
+                if (appointments == null)
+                {
+                    appointments = new List<Appointment>();
+                }
                 if (appointments.Count > Constants.OneItemInList)
                 {
                     DateTime clickedDateAndTime = GetClickedDateAndTime(e);

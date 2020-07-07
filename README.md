@@ -1,16 +1,12 @@
-# Calendario con interfaz gráfica - parte 4
-## Proyecto del curso Diseño de Software Verificable
+## Calendario con interfaz gráfica - parte 5
+### Proyecto del curso Diseño de Software Verificable
 
-Recomendaciones para probar el calendario:
-* El usuario ***pepe*** tiene hartos eventos
-* Hay más eventos en el mes de junio de 2020
+# Cambios realizados con respecto a la parte 4
 
-Tests:
-* Todos los tests fueron implementados usando el framework ***NUnit***
-* Como se ve en la imagen *pantallazo_tests.png*, los 21 tests pasan, y éstos cubren un **26.41%** del código total. Para analizar la cobertura se utilizó la herramienta que viente integrada en **Visual Studio 2019 Enterprise**
+* Los 2 errores de estándar de código sobre *Language Usage* fueron solucionados. Estos errores eran *"Avoid direct casts. Instead, use the “as” operator and check for null"*, ubicados en *UserController.cs* línea 63 y *CalendarForm.cs* línea 289.
+* El tercer error, sobre *Formatting* de estándar de código, no fue solucionado. Lo anterior es porque si este error es solucionado, entonces aparece otro error de *Stepdown rule*. El método público *ShowSelectedDisplay()* está declarado debajo de métodos privados porque éstos llaman al método *ShowSelectedDisplay()*. Es decir, se está respetando la regla de *Stepdown*. Cabe destacar que el método *ShowSelectedDisplay()* es público porque se usa también en otras clases. Hablé con el profesor sobre este tema y me dijo que se debía priorizar el cumplimiento de la *Stepdown rule*, y que no debería haber descuento por este error. Gracias por la consideración.
+* Los 21 tests siguen pasando, pero con el aumento de código (para solucionar los 2 problemas mencionados anteriormente) el % de cobertura de los tests disminuyó un poco, llegando a **25.58%** (todavía sobre el % requerido). Recordar usar el archivo *TestsCoverage.runsettings* para ejecutar los tests.
 
-Análisis estático:
-* En el archivo *advertencias_totales_parte_4_Vicente_Correa.xlsx* se encuentran las 154 advertencias que, como se puede ver en la imagen *pantallazo_reglas_aplicadas.png*, son generadas aplicando **todas las reglas de Microsoft**
-* En el archivo *explicacion_advertencias_parte_4_Vicente_Correa.xlsx* se explica porqué estas advertencias no fueron resueltas (muchas otras sí fueron resueltas)
+Con respecto al análisis estático, las advertencias no cambiaron, por lo que tampoco lo hicieron los 2 archivos *.xslx*
 
 ## Vicente Correa
